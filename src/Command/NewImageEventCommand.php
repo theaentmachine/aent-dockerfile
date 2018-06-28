@@ -2,7 +2,6 @@
 
 namespace TheAentMachine\AentDockerfile\Command;
 
-use TheAentMachine\AentDockerfile\Aenthill\Enum\PheromoneEnum;
 use TheAentMachine\JsonEventCommand;
 use TheAentMachine\Service\Service;
 
@@ -20,9 +19,9 @@ class NewImageEventCommand extends JsonEventCommand
         $serviceName = $service->getServiceName();
         $commands = $service->getDockerfileCommands();
 
-        $dockerfileName = getenv(PheromoneEnum::PHEROMONE_CONTAINER_PROJECT_DIR.'/Dockerfile.'.$serviceName);
+        $dockerfileName = getenv('PHEROMONE_CONTAINER_PROJECT_DIR') . '/Dockerfile.' . $serviceName;
 
-        file_put_contents($dockerfileName, $commands);
+        file_put_contents($dockerfileName, implode(PHP_EOL, $commands));
 
         return null;
     }
