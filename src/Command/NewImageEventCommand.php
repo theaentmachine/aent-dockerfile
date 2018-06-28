@@ -2,6 +2,7 @@
 
 namespace TheAentMachine\AentDockerfile\Command;
 
+use Symfony\Component\Filesystem\Filesystem;
 use TheAentMachine\JsonEventCommand;
 use TheAentMachine\Service\Service;
 
@@ -21,7 +22,8 @@ class NewImageEventCommand extends JsonEventCommand
 
         $dockerfileName = getenv('PHEROMONE_CONTAINER_PROJECT_DIR') . '/Dockerfile.' . $serviceName;
 
-        file_put_contents($dockerfileName, implode(PHP_EOL, $commands));
+        $fileSystem = new Filesystem();
+        $fileSystem->dumpFile($dockerfileName, implode(PHP_EOL, $commands));
 
         return null;
     }
