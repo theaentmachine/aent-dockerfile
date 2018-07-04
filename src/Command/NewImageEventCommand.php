@@ -25,8 +25,10 @@ class NewImageEventCommand extends JsonEventCommand
 
         $fileSystem = new Filesystem();
         $fileSystem->dumpFile($dockerfileName, implode(PHP_EOL, $commands));
-        $fileSystem->chown($dockerfileName, fileowner(\dirname($dockerfileName)));
-        $fileSystem->chgrp($dockerfileName, filegroup(\dirname($dockerfileName)));
+
+        $dirInfo = new \SplFileInfo(\dirname($dockerfileName));
+        chown($dockerfileName, $dirInfo->getOwner());
+        chgrp($dockerfileName, $dirInfo->getGroup());
         return null;
     }
 }
