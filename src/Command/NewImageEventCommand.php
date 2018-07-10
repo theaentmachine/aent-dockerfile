@@ -19,12 +19,12 @@ class NewImageEventCommand extends JsonEventCommand
     {
         $service = Service::parsePayload($payload);
         $serviceName = $service->getServiceName();
-        $commands = $service->getDockerfileCommands();
+        $commands = implode(PHP_EOL, $service->getDockerfileCommands()) . PHP_EOL;
 
         $dockerfileName = Pheromone::getContainerProjectDirectory() . '/Dockerfile.' . $serviceName;
 
         $fileSystem = new Filesystem();
-        $fileSystem->dumpFile($dockerfileName, implode(PHP_EOL, $commands));
+        $fileSystem->dumpFile($dockerfileName, $commands);
 
         $dirInfo = new \SplFileInfo(\dirname($dockerfileName));
         chown($dockerfileName, $dirInfo->getOwner());
