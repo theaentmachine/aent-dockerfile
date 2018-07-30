@@ -35,6 +35,9 @@ class NewImageEventCommand extends AbstractJsonEventCommand
         $dirInfo = new \SplFileInfo(\dirname($dockerfileName));
         chown($dockerfileName, $dirInfo->getOwner());
         chgrp($dockerfileName, $dirInfo->getGroup());
+
+        $this->output->writeln("Dockerfile <info>$dockerfileName</info> has been successfully created!");
+
         return null;
     }
 }
