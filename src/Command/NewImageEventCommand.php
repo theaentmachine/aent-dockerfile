@@ -3,11 +3,11 @@
 namespace TheAentMachine\AentDockerfile\Command;
 
 use Symfony\Component\Filesystem\Filesystem;
-use TheAentMachine\JsonEventCommand;
-use TheAentMachine\Pheromone;
+use TheAentMachine\Command\AbstractJsonEventCommand;
+use TheAentMachine\Aenthill\Pheromone;
 use TheAentMachine\Service\Service;
 
-class NewImageEventCommand extends JsonEventCommand
+class NewImageEventCommand extends AbstractJsonEventCommand
 {
 
     protected function getEventName(): string
@@ -15,6 +15,12 @@ class NewImageEventCommand extends JsonEventCommand
         return 'NEW_IMAGE';
     }
 
+    /**
+     * @param array $payload
+     * @return array|null
+     * @throws \TheAentMachine\Exception\MissingEnvironmentVariableException
+     * @throws \TheAentMachine\Service\Exception\ServiceException
+     */
     protected function executeJsonEvent(array $payload): ?array
     {
         $service = Service::parsePayload($payload);
