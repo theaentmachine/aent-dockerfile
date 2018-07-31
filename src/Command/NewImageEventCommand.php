@@ -23,7 +23,7 @@ class NewImageEventCommand extends AbstractJsonEventCommand
 
     /**
      * @param mixed[] $payload
-     * @return array|null
+     * @return string[]|null
      * @throws ManifestException
      * @throws MissingEnvironmentVariableException
      * @throws ServiceException
@@ -46,6 +46,6 @@ class NewImageEventCommand extends AbstractJsonEventCommand
 
         $this->output->writeln("Dockerfile <info>$dockerfileName</info> has been successfully created!");
 
-        return null;
+        return [$dockerfileName];
     }
 }
