@@ -35,14 +35,15 @@ class NewImageEventCommand extends AbstractJsonEventCommand
         $commands = implode(PHP_EOL, $service->getDockerfileCommands()) . PHP_EOL;
 
         $envName = Manifest::mustGetMetadata(CommonMetadata::ENV_NAME_KEY);
-        $dockerfileName = Pheromone::getContainerProjectDirectory() . "/Dockerfile.$envName.$serviceName";
+        $dockerfileName = "Dockerfile.$envName.$serviceName";
+        $dockerfilePath = Pheromone::getContainerProjectDirectory() . "/$dockerfileName";
 
         $fileSystem = new Filesystem();
-        $fileSystem->dumpFile($dockerfileName, $commands);
+        $fileSystem->dumpFile($dockerfilePath, $commands);
 
-        $dirInfo = new \SplFileInfo(\dirname($dockerfileName));
-        \chown($dockerfileName, $dirInfo->getOwner());
-        \chgrp($dockerfileName, $dirInfo->getGroup());
+        $dirInfo = new \SplFileInfo(\dirname($dockerfilePath));
+        \chown($dockerfilePath, $dirInfo->getOwner());
+        \chgrp($dockerfilePath, $dirInfo->getGroup());
 
         $this->output->writeln("Dockerfile <info>$dockerfileName</info> has been successfully created!");
 
